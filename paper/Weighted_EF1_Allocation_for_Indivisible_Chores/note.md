@@ -92,3 +92,58 @@ $$\rho'(\alpha) = c_i(e_z'), for \ \alpha \in (\frac{z - 1}{w_j}, \frac{z}{w_j}]
 $$\frac{c_i(X_i - e_1)}{w_i} = \int _{\frac{1}{w_i}}^{\frac{k}{w_i}} \rho (\alpha) d\alpha, \ and \ \  \frac{c_i(X_j)}{w_j} = \int_0^{\frac{k'}{w_j}} \rho'(\alpha)d\alpha$$
 
 接下来通过有一些有效的引理证明
+
+
+
+
+### 4. WEF1 and PO for Bivalued Instances
+我们将重点讨论公平和高效分配的计算，并探讨WEF1和PO分配的存在性。
+
+#### 定义4.1 (Bi-valued Instances) 
+如果存在常数$a, b \geq 0$，使得对于任意agent $i\in N$，项目$e \in M$ 有 $c_i(e) \in \{a, b \}$，则称为双值实例.
+
+对于非负的 $a,b$, 且 $a \neq b$, 我们可以放缩损失函数为 $c_i(e) = \{1, k \}$, 这里 $k > 1$. 如果 $c_i(e) = k$ 我们把物品 $e$ 称为对代理人 i 是 $large$ 的，如果 $c_i(e) = 1$, 称为 $small$. 不难证明至少有一个 $c_i(e) = 1$ 否则可以把最小的数字放缩为1
+
+#### 定理4.2 
+对于任意一种双值实例，存在一种算法在多项式时间内计算 WEF1 和 PO 
+
+#### 定义4.3
+对于每个 $i$，如果所有物品都是 $c_i(e) = k$, 成为 consistently large item.
+定义 $M^+ = \{e \in M: \forall i \in N, c_i(e) = k \}$
+
+$M^- = \{ e\in M: \exist i \in N, c_i(e) = 1 \}$
+
+#### Fisher Market 
+- 存在一个价格向量$p$被赋值到每一个工作中，$p(e) > 0$. 所有任意一个子集 $X_i \subseteq M$ 令 $p(X_i) = \sum_{e \in X_i} p(e)$. 
+- 给定一个价值向量 $p$，我们定义 pain-per-buck 因子为候选人 $i$ 的选择劳务 $e$ ：$\alpha_{i, e} = \frac{c_i(e)}{p(e)}$，那么候选$i$最小的 pain-per-buck(MPB) 因子 $\alpha_i = \min_{e \in M}\{\alpha_{i, e}\}$ 
+- 对于每个候选人$i$，定义$MPB_i = \{ e \in M: \alpha_{i, e} = \alpha_i \}$，我们称每个物品$e \in MPB_i$ 为 候选人 $i$ 的 MPB item. （这是一个最小花费的集合）
+- 一个分配$X$,带有价格 $p$,如果每一个候选人只得到了他的 MPB 工作，即 $X_i \subseteq MPB_i$, 形成一个均衡(equilibrium)。
+#### 定义4.4(pWEF1) 
+一个平衡 ($X, p$) 如果对所有 $i, j \in N$ 存在一个 $e \in X_i$ 满足 
+$$
+\frac{p(X_i - e)}{w_i} \leq \frac{p(X_j)}{w_j}
+$$
+被称为 price weighted envy-free up to one item(pWEF1)
+
+这一届称 $\frac{p(X_i)}{w_i}$ 为代理人 $i$ 的带权花费。为了方便表示，给定一个平衡 ($X, p$), 用 $\hat{p_i}$ 表示代理人 $i$ 移除一个最大花费物品，即
+$$
+\hat{p_i} = \min\limits_{e \in X_i} \{ \frac{p(X_i - e)}{w_i} \}
+$$
+
+
+#### 定义4.6(Big and Least Spenders)
+给一个平衡($X, p$), 一个代理人 $b \in N$ 如果$b = argmax_{i \in N} \{\hat{p_i}\}$被称为 big spender. 一个代理人 $l$ 被满足 $l = argmin_{i \in N} \{\frac{p(X_i)}{w_i}\}$称为 least spender
+
+#### 定理4.7 
+如果均衡($X, p$)认为大消费者$b$并不强烈嫉妒最小消费者$l$，则该均衡为$pWEF1$。
+
+证明：
+对于任意 $i, j \in N$, 我们想说明 $i$ 没有强烈妒忌 $j$.根据定义 大消费者$b$并不强烈嫉妒最小消费者$l$，因此有
+
+$$
+\frac{p(X_b - e)}{w_b} \leq \frac{p(X_l)}{w_l}
+$$
+
+而显然 $\frac{p(X_i - e)}{w_i} \leq \frac{p(X_b - e)}{w_b}$, 且 $\frac{p(X_l)}{w_l} \leq \frac{p(X_j)}{w_j}$
+
+因此条件$\frac{p(X_i - e)}{w_i} \leq \frac{p(X_j)}{w_j}$ 成立，于是证明了($X, p$) 满足 $pWEF1$
